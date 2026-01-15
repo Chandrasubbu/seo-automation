@@ -152,8 +152,8 @@ export function PerformanceDashboard() {
                                     key={range}
                                     onClick={() => setDateRange(range)}
                                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${dateRange === range
-                                            ? "bg-purple-500 text-white"
-                                            : "text-gray-400 hover:text-white"
+                                        ? "bg-purple-500 text-white"
+                                        : "text-gray-400 hover:text-white"
                                         }`}
                                 >
                                     {range === "7d" ? "7 Days" : range === "30d" ? "30 Days" : "90 Days"}
@@ -293,7 +293,7 @@ export function PerformanceDashboard() {
                                         paddingAngle={5}
                                         dataKey="value"
                                         label={({ name, percent }) =>
-                                            `${name} ${(percent * 100).toFixed(0)}%`
+                                            `${name} ${((percent || 0) * 100).toFixed(0)}%`
                                         }
                                         labelLine={false}
                                     >

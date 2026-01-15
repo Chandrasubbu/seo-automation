@@ -1,4 +1,4 @@
-import cron from "node-cron"
+import cron, { ScheduledTask } from "node-cron"
 import { prisma } from "./db"
 import { contentOptimizer } from "./content-optimizer"
 import { serpService } from "./serp-service"
@@ -38,7 +38,7 @@ type TaskType = "content_audit" | "serp_check" | "keyword_update" | "weekly_repo
  * Manages scheduled tasks and their execution
  */
 class WorkflowEngine {
-    private scheduledJobs: Map<string, cron.ScheduledTask> = new Map()
+    private scheduledJobs: Map<string, ScheduledTask> = new Map()
     private runningTasks: Map<string, TaskExecution> = new Map()
 
     /**

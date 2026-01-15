@@ -1,9 +1,9 @@
-import cron from "node-cron"
+import cron, { ScheduledTask } from "node-cron"
 import { prisma } from "@/lib/db"
 import { workflowEngine } from "./workflow-engine"
 
 class SchedulerService {
-    private jobs: Map<string, cron.ScheduledTask> = new Map()
+    private jobs: Map<string, ScheduledTask> = new Map()
 
     /**
      * Initialize scheduler: Load active workflows and schedule them
