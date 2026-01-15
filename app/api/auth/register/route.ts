@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import bcrypt from "bcryptjs"
 
 export async function POST(req: NextRequest) {
+    console.log("Registration attempt started. DB URL present:", !!process.env.DATABASE_URL)
     try {
         const { name, email, password } = await req.json()
 
@@ -57,10 +58,27 @@ export async function POST(req: NextRequest) {
             },
             { status: 201 }
         )
-    } catch (error) {
-        console.error("Registration error:", error)
+    } catch (error: any) {
+        console.error("Registration error details:", {
+            message: error.message,
+            code: error.code,
+            meta: error.meta,
+            stack: error.stack
+        })
+
+        // Check for specific Prisma errors
+        if (error.code === 'P2002') {
+            return NextResponse.json(
+                { error: "An account with this email already exists" },
+                { status: 400 }
+            )
+        }
+
         return NextResponse.json(
-            { error: "An error occurred during registration" },
+            {
+                error: "An error occurred during registration",
+                details: process.env.NODE_ENV === 'development' ? error.message : undefined
+            },
             { status: 500 }
         )
     }
