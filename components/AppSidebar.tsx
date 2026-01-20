@@ -16,7 +16,8 @@ import {
     Briefcase,
     FileText,
     Shield,
-    Link2
+    Link2,
+    Sparkles
 } from "lucide-react"
 import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
@@ -65,6 +66,7 @@ function UserProfile() {
 
 const sidebarItems = [
     { name: "SEO Blueprint Generator", href: "/", icon: LayoutDashboard },
+    { name: "AI Suite", href: "/ai-suite", icon: Sparkles },
     { name: "Projects", href: "/projects", icon: Briefcase },
     { name: "Keyword Research", href: "/keyword-research", icon: Search },
     { name: "SERP Analysis", href: "/serp-analysis", icon: LineChart },

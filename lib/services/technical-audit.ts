@@ -212,7 +212,7 @@ export interface UXResult {
  * Technical SEO Audit Service
  * Comprehensive site auditing across 7 key areas with region detection
  */
-class TechnicalAuditService {
+export class TechnicalAuditService {
     private userAgent = "Mozilla/5.0 (compatible; SEOAuditBot/1.0)"
 
     // Proxy endpoints for different regions (simulated with headers)
@@ -679,7 +679,7 @@ class TechnicalAuditService {
     async checkContent($: cheerio.CheerioAPI, url: string): Promise<ContentResult> {
         // Extract domain from URL
         const urlObj = new URL(url)
-        
+
         // Check for duplicate title/description
         const titles = $("title").map((_, el) => $(el).text()).get()
         const descriptions = $('meta[name="description"]').map((_, el) => $(el).attr("content")).get()

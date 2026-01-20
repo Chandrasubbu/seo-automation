@@ -35,6 +35,10 @@ model User {
   technicalAudits       TechnicalAudit[]
   topicClusters         TopicCluster[]
   workflows             Workflow[]
+  programmaticAnalyses  ProgrammaticAnalysis[]
+  aeoAnalyses           AeoAnalysis[]
+  geoAnalyses           GeoAnalysis[]
+  aiVisibilityRecords   AiVisibility[]
 
   @@index([email])
 }
@@ -510,4 +514,62 @@ model GoogleSearchKeywords {
   @@index([projectId])
   @@index([createdAt])
   @@index([status])
+}
+
+model ProgrammaticAnalysis {
+  id          String   @id @default(cuid())
+  userId      String?
+  keyword     String
+  source      String
+  data        Json
+  provenance  Json
+  createdAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  @@index([userId])
+  @@index([keyword])
+}
+
+model AeoAnalysis {
+  id           String   @id @default(cuid())
+  userId       String?
+  query        String
+  answerType   String
+  currentOwner String?
+  recommendations Json
+  provenance   Json
+  createdAt    DateTime @default(now())
+  user         User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([query])
+}
+
+model GeoAnalysis {
+  id              String   @id @default(cuid())
+  userId          String?
+  prompt          String
+  aiModel         String
+  citations       Json
+  recommendations Json
+  provenance      Json
+  createdAt       DateTime @default(now())
+  user            User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model AiVisibility {
+  id           String   @id @default(cuid())
+  userId       String?
+  entity       String
+  platform     String
+  shareOfVoice Float
+  mentions     Int
+  provenance   Json
+  createdAt    DateTime @default(now())
+  user         User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity])
 }
