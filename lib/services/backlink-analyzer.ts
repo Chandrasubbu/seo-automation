@@ -139,117 +139,14 @@ class BacklinkAnalyzerService {
     }
 
     /**
-     * Get backlink data (simulated - would use API in production)
+     * Get backlink data
+     * NOTE: This requires integration with a backlink API (Ahrefs, Moz, SEMrush)
      */
     private async getBacklinkData(domain: string, region?: string): Promise<SimulatedBacklink[]> {
-        // Curated list of real, high-quality domains for simulation
-        const realDomains = {
-            "US": [
-                { domain: "forbes.com", da: 95, traffic: 50000000, type: "news" },
-                { domain: "techcrunch.com", da: 93, traffic: 8000000, type: "tech" },
-                { domain: "hubspot.com", da: 92, traffic: 15000000, type: "marketing" },
-                { domain: "medium.com", da: 96, traffic: 120000000, type: "blog" },
-                { domain: "shopify.com", da: 94, traffic: 25000000, type: "ecommerce" },
-                { domain: "businessinsider.com", da: 94, traffic: 40000000, type: "news" }
-            ],
-            "UK": [
-                { domain: "bbc.co.uk", da: 95, traffic: 60000000, type: "news" },
-                { domain: "theguardian.com", da: 94, traffic: 35000000, type: "news" },
-                { domain: "wired.co.uk", da: 88, traffic: 2000000, type: "tech" },
-                { domain: "independent.co.uk", da: 92, traffic: 20000000, type: "news" },
-                { domain: "gov.uk", da: 99, traffic: 50000000, type: "gov" }
-            ],
-            "IN": [
-                { domain: "yourstory.com", da: 85, traffic: 3000000, type: "startup" },
-                { domain: "inc42.com", da: 78, traffic: 1500000, type: "startup" },
-                { domain: "timesofindia.indiatimes.com", da: 93, traffic: 80000000, type: "news" },
-                { domain: "moneycontrol.com", da: 88, traffic: 15000000, type: "finance" }
-            ],
-            "AU": [
-                { domain: "smh.com.au", da: 90, traffic: 10000000, type: "news" },
-                { domain: "abc.net.au", da: 92, traffic: 15000000, type: "news" },
-                { domain: "news.com.au", da: 89, traffic: 12000000, type: "news" }
-            ],
-            "CA": [
-                { domain: "cbc.ca", da: 93, traffic: 25000000, type: "news" },
-                { domain: "globeandmail.com", da: 88, traffic: 8000000, type: "news" },
-                { domain: "shopify.ca", da: 94, traffic: 5000000, type: "tech" }
-            ],
-            "DE": [
-                { domain: "spiegel.de", da: 93, traffic: 30000000, type: "news" },
-                { domain: "zeit.de", da: 91, traffic: 15000000, type: "news" },
-                { domain: "t3n.de", da: 82, traffic: 2000000, type: "tech" }
-            ],
-            "FR": [
-                { domain: "lemonde.fr", da: 93, traffic: 25000000, type: "news" },
-                { domain: "lefigaro.fr", da: 92, traffic: 22000000, type: "news" },
-                { domain: "journaldunet.com", da: 85, traffic: 5000000, type: "tech" }
-            ]
-        }
-
-        // Generic defaults if region not found or empty
-        const defaults = [
-            { domain: "wikipedia.org", da: 98, traffic: 1000000000, type: "general" },
-            { domain: "reddit.com", da: 95, traffic: 800000000, type: "forum" },
-            { domain: "linkedin.com", da: 99, traffic: 500000000, type: "social" },
-            { domain: "quora.com", da: 92, traffic: 150000000, type: "forum" }
-        ]
-
-        // Toxic domains for simulation (generic)
-        const toxicSites = [
-            { domain: "best-links-4u.xyz", da: 5, traffic: 100, type: "spam" },
-            { domain: "cheap-seo-services.tk", da: 8, traffic: 50, type: "spam" },
-            { domain: "free-money-now.ga", da: 3, traffic: 20, type: "spam" },
-            { domain: "directory-submissions-101.info", da: 12, traffic: 500, type: "directory" },
-            { domain: "article-spinner-pro.biz", da: 15, traffic: 300, type: "spam" }
-        ]
-
-        // Select domains based on region
-        let selectedDomains = defaults
-        if (region && realDomains[region as keyof typeof realDomains]) {
-            selectedDomains = [...realDomains[region as keyof typeof realDomains], ...defaults]
-        } else if (!region || region === "US") {
-            selectedDomains = [...realDomains["US"], ...defaults]
-        }
-
-        // Generate simulated backlinks using selected realistic domains
-        const backlinks: SimulatedBacklink[] = []
-
-        // Add 8-12 high quality links
-        for (const site of selectedDomains) {
-            if (Math.random() > 0.3) { // 70% chance to have a link from these top sites
-                backlinks.push({
-                    url: `https://${site.domain}/blog/top-tools-2025`,
-                    domain: site.domain,
-                    domainAuthority: site.da,
-                    anchorText: Math.random() > 0.5 ? domain : "click here",
-                    firstSeen: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
-                    lastSeen: new Date().toISOString(),
-                    isActive: true,
-                    linkType: Math.random() > 0.2 ? "dofollow" : "nofollow",
-                    traffic: site.traffic,
-                    spamScore: 1
-                })
-            }
-        }
-
-        // Add some toxic links (fixed count for demo)
-        toxicSites.forEach(site => {
-            backlinks.push({
-                url: `https://${site.domain}/links.html`,
-                domain: site.domain,
-                domainAuthority: site.da,
-                anchorText: domain,
-                firstSeen: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
-                lastSeen: new Date().toISOString(),
-                isActive: true,
-                linkType: "dofollow",
-                traffic: site.traffic,
-                spamScore: 85 // High spam score
-            })
-        })
-
-        return backlinks
+        throw new Error(
+            'Backlink analysis requires integration with Ahrefs, Moz, or SEMrush API. ' +
+            'Configure API credentials in .env to enable this feature.'
+        );
     }
 
 

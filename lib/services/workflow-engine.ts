@@ -75,23 +75,21 @@ export class WorkflowEngine {
 
         switch (step.type) {
             case "generate_content":
-                // Mock integration with Content Generator
-                // In real app, call ContentGeneratorService
-                return { generatedUrl: "/content/new-article", title: config.topic }
+                // TODO: Integrate with real content generation service
+                throw new Error('generate_content step requires content generation service integration');
 
             case "analyze_content":
-                // Call Optimization Engine
-                if (!config.content) return { error: "No content content provided" }
-                return await optimizationEngine.analyzeSXO(config.content, config.keyword || "seo")
+                // Uses OptimizationEngine for rule-based SEO analysis
+                if (!config.content) return { error: "No content provided" }
+                return await optimizationEngine.analyzeSEO(config.content, config.keyword || "seo")
 
             case "check_ranking":
-                // Mock ranking check
-                return { position: Math.floor(Math.random() * 20) + 1 }
+                // TODO: Integrate with real rank tracking service (SERP API, Google Search Console)
+                throw new Error('check_ranking step requires rank tracking integration');
 
             case "email_report":
-                // Mock email
-                console.log("Sending email to:", config.email || "user@example.com")
-                return { sent: true }
+                // TODO: Integrate with email service (SendGrid, AWS SES)
+                throw new Error('email_report step requires email service integration');
 
             case "delay":
                 await new Promise(r => setTimeout(r, config.ms || 1000))

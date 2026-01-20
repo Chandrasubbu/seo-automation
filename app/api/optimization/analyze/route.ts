@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         const { content, targetKeyword } = result.data
 
         // 1. Run Analysis
-        const analysis = optimizationEngine.analyzeSXO(content, targetKeyword)
+        const analysis = optimizationEngine.analyzeSEO(content, targetKeyword)
 
         // 2. Generate Suggestions
         const suggestions = await optimizationEngine.generateSuggestions(content, targetKeyword)

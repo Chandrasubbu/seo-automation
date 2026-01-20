@@ -25,7 +25,7 @@ export class OptimizationEngine {
     /**
      * Analyzes content for basic SEO metrics
      */
-    analyzeSXO(content: string, targetKeyword: string): SEOScore {
+    analyzeSEO(content: string, targetKeyword: string): SEOScore {
         const issues: string[] = [];
         let score = 100;
 
@@ -82,15 +82,12 @@ export class OptimizationEngine {
     }
 
     /**
-     * helper to extract potential keyword opportunities using AI
-     * (Mock implementation for now to avoid token usage in dev, or real call if wired up)
+     * Generate SEO improvement suggestions
+     * NOTE: Currently uses rule-based analysis. Integrate AI service for advanced suggestions.
      */
     async generateSuggestions(content: string, targetKeyword: string): Promise<Suggestion[]> {
-        // In a real scenario, we'd prompt the LLM:
-        // "Analyze this text for SEO based on keyword '${targetKeyword}'. Suggest specific improvements."
-
         const suggestions: Suggestion[] = [];
-        const analysis = this.analyzeSXO(content, targetKeyword);
+        const analysis = this.analyzeSEO(content, targetKeyword);
 
         // Convert rule-based issues to suggestions
         analysis.issues.forEach((issue, idx) => {
@@ -101,29 +98,19 @@ export class OptimizationEngine {
             });
         });
 
-        // Add a mock AI suggestion for demonstration
-        if (!content.includes('conclusion') && !content.includes('summary')) {
-            suggestions.push({
-                id: 'ai-1',
-                type: 'structure',
-                message: 'Content seems to lack a clear conclusion or summary section.',
-                fixPrediction: `## Conclusion\n\nIn summary, ${targetKeyword} is an essential strategy...`
-            });
-        }
+        // TODO: Integrate real AI service for advanced suggestions
+        // Example: const aiSuggestions = await aiService.analyzeSEOContent(content, targetKeyword);
 
         return suggestions;
     }
 
     /**
      * Applies an AI fix to the content
+     * NOTE: Requires AI service integration
      */
     async applyFix(content: string, suggestionId: string, instruction: string): Promise<string> {
-        // Logic to call AI to rewrite section
-        // For now, simple mock append or replace
-        if (suggestionId === 'ai-1') {
-            return content + '\n\n' + instruction;
-        }
-        return content; // No change
+        // TODO: Integrate with AI service to apply content improvements
+        throw new Error('AI content optimization requires OpenAI/Anthropic API integration. Configure AI_API_KEY in .env');
     }
 }
 

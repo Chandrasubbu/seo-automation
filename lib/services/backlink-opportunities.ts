@@ -220,102 +220,26 @@ class BacklinkOpportunitiesService {
 
     /**
      * Find broken link building opportunities
+     * Note: Requires web crawler/broken link checker integration
      */
     private async findBrokenLinkOpportunities(domain: string, region?: string): Promise<BrokenLinkOpportunity[]> {
-        // Region-specific real domains mapping
-        const realDomains = {
-            "US": ["forbes.com", "businessinsider.com", "searchengineland.com", "moz.com", "ahrefs.com"],
-            "UK": ["bbc.co.uk", "wired.co.uk", "theguardian.com", "campaignlive.co.uk"],
-            "IN": ["yourstory.com", "inc42.com", "economictimes.indiatimes.com"],
-            "AU": ["smh.com.au", "afr.com", "news.com.au"],
-            "CA": ["cbc.ca", "globeandmail.com", "betakit.com"],
-            "DE": ["t3n.de", "gruenderszene.de", "spiegel.de"],
-            "FR": ["journaldunet.com", "lesechos.fr", "frenchweb.fr"]
-        }
-
-        const targetDomains = region && realDomains[region as keyof typeof realDomains]
-            ? realDomains[region as keyof typeof realDomains]
-            : realDomains["US"]
-
-        const getRandomDomain = () => targetDomains[Math.floor(Math.random() * targetDomains.length)]
-
-        return [
-            {
-                sourceDomain: getRandomDomain(),
-                sourceUrl: `https://${getRandomDomain()}/resources/marketing-tools`,
-                domainAuthority: 88,
-                brokenUrl: `https://moz.com/blog/dead-guide`,
-                originalAnchor: "comprehensive SEO guide",
-                suggestedReplacement: `https://${domain}/seo-guide`,
-                relevanceScore: 92,
-                estimatedValue: "high" as const,
-                outreachTemplate: "",
-                status: "new"
-            },
-            {
-                sourceDomain: getRandomDomain(),
-                sourceUrl: `https://${getRandomDomain()}/articles/best-software-2024`,
-                domainAuthority: 85,
-                brokenUrl: `https://searchengineland.com/old-news`,
-                originalAnchor: "latest algorithm updates",
-                suggestedReplacement: `https://${domain}/blog/algo-updates`,
-                relevanceScore: 85,
-                estimatedValue: "medium" as const,
-                outreachTemplate: "",
-                status: "new"
-            }
-        ].map(opp => ({
-            ...opp,
-            estimatedValue: opp.estimatedValue as "high" | "medium" | "low", // Explicit cast
-            status: "new" as "new" | "contacted" | "acquired" | "rejected",
-            outreachTemplate: this.generateOutreachTemplate("broken_link", {
-                contactName: "Editor",
-                sourceTitle: "Resources",
-                brokenUrl: opp.brokenUrl
-            })
-        }))
+        // TODO: Integrate with broken link checker service (e.g., Ahrefs API, custom crawler)
+        // Current implementation returns empty as we don't have a real data source
+        console.warn('Broken link opportunities require crawler integration - returning empty');
+        return [];
     }
 
     /**
      * Find competitor link gaps
+     * Note: Requires backlink comparison API (SEMrush, Ahrefs)
      */
     private async findCompetitorGaps(domain: string, competitors: string[], region?: string): Promise<CompetitorGap[]> {
-        if (!competitors.length) return []
+        if (!competitors.length) return [];
 
-        const realDomains = {
-            "US": ["g2.com", "capterra.com", "techcrunch.com"],
-            "UK": ["techradar.com", "wired.co.uk", "sifted.eu"],
-            "IN": ["yourstory.com", "inc42.com"],
-            "AU": ["startupdaily.net", "smartcompany.com.au"],
-            "CA": ["betakit.com", "techvibes.com"],
-            "DE": ["t3n.de", "gruenderszene.de"],
-            "FR": ["journaldunet.com", "frenchweb.fr"]
-        }
-
-        const targetDomains = region && realDomains[region as keyof typeof realDomains]
-            ? realDomains[region as keyof typeof realDomains]
-            : realDomains["US"]
-
-        const getRandomDomain = () => targetDomains[Math.floor(Math.random() * targetDomains.length)]
-
-        return [
-            {
-                sourceDomain: getRandomDomain(),
-                domainAuthority: 85,
-                competitorDomain: competitors[0] || "semrush.com",
-                gapType: "listicle",
-                acquisitionDifficulty: "easy",
-                suggestedApproach: "Submit your tool to their 'Best SEO Tools' list"
-            },
-            {
-                sourceDomain: getRandomDomain(),
-                domainAuthority: 92,
-                competitorDomain: competitors[1] || "ahrefs.com",
-                gapType: "news",
-                acquisitionDifficulty: "hard",
-                suggestedApproach: "Pitch a unique data-driven story or case study"
-            }
-        ]
+        // TODO: Integrate with SEMrush/Ahrefs API for real competitor gap analysis
+        // This requires comparing backlink profiles between domains
+        console.warn('Competitor gap analysis requires SEMrush/Ahrefs API - returning empty');
+        return [];
     }
 
     /**
